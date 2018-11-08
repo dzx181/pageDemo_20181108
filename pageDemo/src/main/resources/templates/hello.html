@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{css/paging.css}"/>
+    <script th:src="@{/webjars/jquery/3.3.1/jquery.js}" type="application/javascript"></script>
+    <script th:src="@{js/paging.js}" type="application/javascript"></script>
+</head>
+<body>
+<table border="1" width="100%" style="text-align: center;">
+
+    <tr><th>ID</th><th>stationID</th><th>Name</th></tr>
+    <tr th:each="busStation,busStationStat:${list}">
+        <td>[[${busStation.id}]]</td>
+        <td>[[${busStation.stationID}]]</td>
+        <td>[[${busStation.name}]]</td>
+    </tr>
+</table>
+<!--分页元素-->
+<div class="box" id="box" ></div>
+<!--添加表单提交标志-->
+<form id="pageForm" style="display: none">
+    <input type="text" id="pages" name="page"/>
+    <input type="button" id="btn" value="tijiao"/>
+</form>
+
+</body>
+<script type="application/javascript" th:inline="javascript">
+
+    var setTotalCount = [[${pageInfo.total}]];
+    var spageNum = [[${pageInfo.pages}]];
+    var initPageNos = [[${pageInfo.pageNum}]]
+    $('#box').paging({
+        initPageNo: initPageNos, // 初始页码
+        totalPages: spageNum, //总页数
+        totalCount: '合计 ' + setTotalCount + ' 条数据', // 条目总数
+        slideSpeed: 600, // 缓动速度。单位毫秒
+        jump: true, //是否支持跳转
+        callback: function(page) { // 回调函数
+            //给标志赋值
+            $("#pages").val(page);
+        }
+    })
+
+
+
+</script>
+</html>
